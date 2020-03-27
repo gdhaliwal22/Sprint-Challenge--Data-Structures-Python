@@ -28,16 +28,22 @@ class LinkedList:
 
         self.head = node
 
+    def list_print(self):
+        data = []
+        current = self.head
+        while current is not None:
+            data.append(current.value)
+            current = current.next_node
+        return "[%s]" % (', '.join(str(i) for i in data))
+
     def contains(self, value):
         if not self.head:
             return False
-        # get a reference to the node we're currently at; update this as we
-        # traverse the list
+        # get a reference to the node we're currently at; update this as we traverse the list
         current = self.head
         # check to see if we're at a valid node
         while current:
-            # return True if the current value we're looking at matches our
-            # target value
+            # return True if the current value we're looking at matches our target value
             if current.get_value() == value:
                 return True
             # update our current node to the current node's next node
@@ -45,6 +51,13 @@ class LinkedList:
         # if we've gotten here, then the target node isn't in our list
         return False
 
-    def reverse_list(self, node, prev):
-        # You must use recursion for this solution
-        pass
+    def reverse_list(self):
+        prev = None
+        current = self.head
+        nxt = self.head
+        while current:
+            nxt = current.next_node
+            current.set_next(prev)
+            prev = current
+            current = nxt
+        self.head = prev
