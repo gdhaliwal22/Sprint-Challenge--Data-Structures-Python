@@ -4,17 +4,32 @@ from doubly_linked_list import DoublyLinkedList
 class RingBuffer:
     def __init__(self, capacity):
         self.capacity = capacity
-        self.current = None
+        self.current_oldest = None
         self.storage = DoublyLinkedList()
 
     def append(self, item):
-        pass
+        if self.storage.length == 0:
+            self.storage.add_to_tail(item)
+            self.current_oldest = self.storage.head
+        elif self.storage.length == self.capacity:
+            self.current_oldest.value = item
+            if self.current_oldest.next == None:
+                self.current_oldest = self.storage.head
+            else:
+                self.current_oldest = self.current_oldest.next
+            return
+        else:
+            self.storage.add_to_tail(item)
 
     def get(self):
         # Note:  This is the only [] allowed
         list_buffer_contents = []
 
-        # TODO: Your code here
+        node = self.storage.head
+
+        while node:
+            list_buffer_contents.append(node.value)
+            node = node.next
 
         return list_buffer_contents
 
